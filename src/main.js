@@ -3,6 +3,7 @@ import {Events} from 'backbone';
 import Data from './collections/Data';
 import Summoner from './views/Summoner';
 import SummonerInput from './views/SummonerInput';
+import Matches from './views/Matches';
 // import TeamLinks from './views/TeamLinks';
 // import TeamMatches from './views/TeamMatches';
 
@@ -22,9 +23,11 @@ import SummonerInput from './views/SummonerInput';
         setGlobalVariables();
 
         let dataCollection = new Data();
-        
+        let matchesCollection = new Data();
+
         new SummonerInput({el: "#summoner-input"});
         new Summoner({el: "#summoner", collection: dataCollection});
+        new Matches({el: "#matches", collection: matchesCollection})
         // App.events.trigger('newSummoner', {region:'euw1', summoner:'NoDayMercy'});
         Backbone.history.start({pushState: true, root: '/front-end/'});
     };

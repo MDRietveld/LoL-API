@@ -9,6 +9,7 @@ import _ from 'underscore';
 const Summoner = View.extend({
   templateSummoner: '',
   templateError: '',
+  region: '',
 
   initialize: function ()
   {
@@ -26,6 +27,7 @@ const Summoner = View.extend({
   * @param data
   */
   loadSummoner: function (data){
+    this.region = data.region;
     this.collection.fetch({
       success: (collection, more) => this.loadSummonerSuccessHandler(collection, more),
       error: (collection, response) => this.loadSummonerErrorHandler(collection, response),
@@ -43,6 +45,10 @@ const Summoner = View.extend({
   */
   loadSummonerSuccessHandler: function (collection, more){
     this.$el.html(this.templateSummoner({summoner: collection.models}));
+    App.events.trigger('getMatches', {
+      id: more.id,
+      region: this.region
+    });
   },
 
   /**

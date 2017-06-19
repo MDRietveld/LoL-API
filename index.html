@@ -23,53 +23,61 @@
       </select>
       <input class='typed-summoner' type="text" name="summoner" placeholder="NoDayMercy, Goldsmoker">
       <input class='search-summoner' type="button" name="search-summoner" value="Search">
-      <!-- <a href="#" data-region="euw1" data-summoner="NoDayMercy">NoDayMercy</a>
-      <a href="#" data-region="euw1" data-summoner="Woxer">Woxer</a>
-      <a href="#" data-region="euw1" data-summoner="Goldsmoker">Goldsmoker</a> -->
     </div>
-
     <div id="summoner">
-
       <span class="start-message">Search for a summoner</span>
-
       <script id="template-error" type="text/template">
         <span class="error"><%= message %></span>
       </script>
       <script id="template-summoner" type="text/template">
-        <% _.each(summoner, function(summoner){ console.log(summoner.get('name')) %>
-        <div class="summoner">
-          <img src="http://ddragon.leagueoflegends.com/cdn/7.5.1/img/profileicon/<%= summoner.get('profileIconId') %>.png" alt="Summoner icon">
-          <h1><%= summoner.get('name') %></h1>
-          <p>
-            Level: <%= summoner.get('summonerLevel') %></br>
-            Last updated: <%= new Date(summoner.get('revisionDate')).toLocaleString('nl-NL') %>
-          </p>
-        </div>
+        <% _.each(summoner, function(summoner){ %>
+          <div class="summoner">
+            <img src="http://ddragon.leagueoflegends.com/cdn/7.5.1/img/profileicon/<%= summoner.get('profileIconId') %>.png" alt="Summoner icon">
+            <h1><%= summoner.get('name') %></h1>
+            <p>
+              Level: <%= summoner.get('summonerLevel') %></br>
+              Last updated: <%= new Date(summoner.get('revisionDate')).toLocaleString('nl-NL') %>
+            </p>
+          </div>
 
-        <p>
-          accountId:22463398</br>
-          id:19647714</br>
-          name:"NoDayMercy"</br>
-          profileIconId:983</br>
-          revisionDate:1495764924000</br>
-          summonerLevel:30</br>
-        </p>
-        <!-- <% console.log(summoner); %> -->
-        <!-- <div class="match">
-        <div class="teams">
-        <span class="club <%= summoner.region %>"><%= summoner.region %></span>
-        <span class="seperator">-</span>
-        <span class="club <%= summoner.lane %>"><%= summoner.lane %></span>
+          <p>
+            accountId:<%= summoner.get('accountId') %></br>
+            id:<%= summoner.get('id') %></br>
+            name:<%= summoner.get('name') %></br>
+            profileIconId:<%= summoner.get('profileIconId') %></br>
+            revisionDate:<%= new Date(summoner.get('revisionDate')).toLocaleString('nl-NL') %></br>
+            summonerLevel:<%= summoner.get('summonerLevel') %></br>
+          </p>
+          <% }); %>
+        </script>
       </div>
-      <div class="location">
-      <span class="region"><%= summoner.region %></span>
-      <span class="queue"><%= summoner.queue %></span>
+      <div id="matches">
+        <span class="start-message">Search for a summoner</span>
+        <script id="template-error" type="text/template">
+          <span class="error"><%= message %></span>
+        </script>
+        <script id="template-matches" type="text/template">
+          <% _.each(matches, function(match){ %>
+            <div class="summoner">
+              <h1><%= match['queue'] %></h1>
+              <p>
+                Lane: <%= match['lane'] %></br>
+                Champion: <%= match['champion'] %>
+              </p>
+              <p>
+                matchId:<%= match['matchId'] %></br>
+                platformId:<%= match['platformId'] %></br>
+                queue:<%= match['queue'] %></br>
+                region:<%= match['region'] %></br>
+                role:<%= match['role'] %></br>
+                season:<%= match['season'] %></br>
+                timestamp:<%= new Date(match['timestamp']).toLocaleString('nl-NL') %>
+              </p>
+            </div>
+          <% }); %>
+        </script>
+      </div>
     </div>
-  </div> -->
-  <% }); %>
-</script>
-</div>
-</div>
-<script src="/front-end/dist/bundle.js" type="text/javascript"></script>
-</body>
-</html>
+    <script src="/front-end/dist/bundle.js" type="text/javascript"></script>
+  </body>
+  </html>
