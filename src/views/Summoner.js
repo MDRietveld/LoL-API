@@ -10,6 +10,8 @@ const Summoner = View.extend({
   templateSummoner: '',
   templateError: '',
   region: '',
+  beginIndex: 0,
+  endIndex: 10,
 
   initialize: function ()
   {
@@ -22,7 +24,7 @@ const Summoner = View.extend({
   },
 
   /**
-  * Wrapper function to load the matches through the collection
+  * Wrapper function to load the summoner through the collection
   *
   * @param data
   */
@@ -39,15 +41,17 @@ const Summoner = View.extend({
   },
 
   /**
-  * Success Handler will add HTML of matches to this $el
+  * Success Handler will add HTML of the summoner to this $el
   *
   * @param collection
   */
   loadSummonerSuccessHandler: function (collection, more){
     this.$el.html(this.templateSummoner({summoner: collection.models}));
     App.events.trigger('getMatches', {
-      id: more.id,
-      region: this.region
+      id: more.accountId,
+      region: this.region,
+      beginIndex: this.beginIndex,
+      endIndex: this.endIndex
     });
   },
 
