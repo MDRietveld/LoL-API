@@ -13,8 +13,8 @@ const SummonerRoute = Router.extend({
   /**
   * Route callback, used to trigger global event
   *
-  * @param league
-  * @param club
+  * @param region
+  * @param summoner
   */
   loadSummoner: function (region, summoner)
   {

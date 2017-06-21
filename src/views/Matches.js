@@ -25,7 +25,7 @@ const Matches = View.extend({
     App.events.on('getMatches', this.loadMatches, this);
   },
 
-  showMatch: function (e){
+  showMatch: function (e) {
     App.events.trigger('getMatchDetails', {
       gameId: e.currentTarget.dataset['gameid'],
       region: this.region

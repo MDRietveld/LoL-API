@@ -31,26 +31,31 @@ switch (true) {
     $matches = json_decode(file_get_contents($url));
     // echo $result;
     $champs = [];
-    $myChampionsArray = [];
-    $champions = json_decode(file_get_contents($root . 'lol/static-data/v3/champions?locale=en_US&dataById=false&'.$api_key));
 
-    foreach($champions->data as $champion){
-      $myChampionsArray[$champion->id]['id'] = $champion->id;
-      $myChampionsArray[$champion->id]['name'] = $champion->name;
-      $myChampionsArray[$champion->id]['key'] = $champion->key;
-      $myChampionsArray[$champion->id]['title'] = $champion->title;
+    if(!isset($_SESSION['champions'])){
+      $myChampionsArray = [];
+
+      $champions = json_decode(file_get_contents($root . 'lol/static-data/v3/champions?locale=en_US&dataById=false&'.$api_key));
+
+      foreach($champions->data as $champion){
+        $myChampionsArray[$champion->id]['id'] = $champion->id;
+        $myChampionsArray[$champion->id]['name'] = $champion->name;
+        $myChampionsArray[$champion->id]['key'] = $champion->key;
+        $myChampionsArray[$champion->id]['title'] = $champion->title;
+      }
+      $_SESSION['champions'] = $myChampionsArray;
     }
     foreach($matches->matches as $key => $match){
       $champ_id = $match->champion;
       $match->champion = [];
       $match->champion['id'] = $champ_id;
-      $match->champion['name'] = $myChampionsArray[$champ_id]['name'];
-      $match->champion['key'] = $myChampionsArray[$champ_id]['key'];
-      $match->champion['title'] = $myChampionsArray[$champ_id]['title'];
+      $match->champion['name'] = $_SESSION['champions'][$champ_id]['name'];
+      $match->champion['key'] = $_SESSION['champions'][$champ_id]['key'];
+      $match->champion['title'] = $_SESSION['champions'][$champ_id]['title'];
     }
 
-    $_SESSION['champions'] = $myChampionsArray;
-    
+
+
     $result = json_encode($matches);
     break;
 
