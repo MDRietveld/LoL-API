@@ -2,7 +2,7 @@ import {View} from 'backbone';
 import SummonerRoute from '../routers/SummonerRoute';
 
 /**
-* Object representing the TeamLinks element
+* Object representing the SummonerInput element
 *
 * @constructor
 */
@@ -21,7 +21,7 @@ const SummonerInput = View.extend({
   },
 
   /**
-  * Click handler for links, retrieve data attributes and navigate router
+  * logKey for keyup, check wether enter is selected to go to clickHandler 
   *
   * @param e
   */
@@ -42,9 +42,7 @@ const SummonerInput = View.extend({
   {
     let summoner = this.$('.typed-summoner').val();
     let region = this.$('.region option:selected').val();
-    // let url = '/front-end/api.php?region=' + target.dataset['region'] + '&summoner=' + target.dataset['summoner'] + '';
     let url = '/summoner/'+region+'/'+summoner+'';
-    // let url = 'summoner/' + target.dataset['region'] + '/' + target.dataset['summoner'];
 
     //Use trigger & replace to update URL and make the router listen to change
     this.router.navigate(url, {trigger: true, replace: true});

@@ -2,14 +2,19 @@
 
 header('Content-type: application/json');
 
-
+/**
+ * For the retrieving of data the get is checked for region because this is neccesairy
+ * Switch to load the correct data
+ * Retrieve data and edit this if this is neccesairy
+ * Saving Champions in session because these do not change frequently to lower the number of api requests
+ */
 
 if(isset($_GET['region'])){
   $region = $_GET['region'];
+}else{
+  exit;
 }
 session_start();
-// session_destroy();
-
 
 $root = 'https://'.$region.'.api.riotgames.com/';
 $result = '';
@@ -25,17 +30,14 @@ switch (true) {
     foreach($result->participants as $participant){
         $participant->championId = $_SESSION['champions'][$participant->championId];
     }
-    // var_dump($result->participants);
     $result = json_encode($result);
     break;
   case isset($_GET['id']):
     $id = $_GET['id'];
     $index = 'beginIndex='.$_GET['beginIndex'] .'&endIndex='.$_GET['endIndex'];
     $region = preg_replace('/[0-9]+/', '', $_GET['region']);
-    // $url = 'https://'.$region.'.api.riotgames.com/api/lol/'.$region.'/v2.2/matchlist/by-summoner/'.$id.'?'.$api_key.'&'.$index;
     $url = $root . 'lol/match/v3/matchlists/by-account/'.$id.'/recent?'.$api_key;
     $matches = json_decode(file_get_contents($url));
-    // echo $result;
     $champs = [];
 
     if(!isset($_SESSION['champions'])){
@@ -66,15 +68,8 @@ switch (true) {
     break;
 
   default:
-  var_dump($_GET);
 
     break;
 }
-
-
-// https://euw1.api.riotgames.com/api/lol/EUW/v2.2/matchlist/by-summoner/19647714?api_key=9dea654d-b93d-4cc1-b423-2bfaa2bc7361
-
-// $result = file_get_contents($root . 'api/lol/EUW/v2.2/matchlist/by-summoner/19647714?api_key=9dea654d-b93d-4cc1-b423-2bfaa2bc7361');
-// $result = file_get_contents('https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/NoDayMercy?api_key=9dea654d-b93d-4cc1-b423-2bfaa2bc7361');
 
 echo $result;

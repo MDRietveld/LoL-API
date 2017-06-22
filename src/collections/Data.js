@@ -8,7 +8,6 @@ import Person from '../models/Person';
  */
 const Data = Collection.extend({
     model: Person,
-    url: '/front-end/api.php'//?region=euw1&summoner=NoDayMercy'//ajaxRequest('./api.php')//.then(showJson)
+    url: '/front-end/api.php'
 });
-// console.log(ajaxRequest('./api.php'));
 export default Data;

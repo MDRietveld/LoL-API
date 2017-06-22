@@ -1,6 +1,5 @@
 import {View} from 'backbone';
 import _ from 'underscore';
-// import SummonerRoute from '../routers/SummonerRoute';
 
 /**
 * Object representing the MatchDetails element
@@ -18,7 +17,7 @@ const MatchDetails = View.extend({
     //Set templates to use later on
     this.templateMatches = _.template(this.$('#template-match-details').html());
     this.templateError = _.template(this.$('#template-error').html());
-    //Listen to global events for change of new club
+    //Listen to global events for change of match to show details about
     App.events.on('getMatchDetails', this.matchDetails, this);
   },
 
@@ -39,7 +38,7 @@ const MatchDetails = View.extend({
   },
 
   /**
-  * Success Handler will add HTML of matches to this $el
+  * Success Handler will add HTML of the details to this $el
   *
   * @param collection
   * @param more
@@ -51,13 +50,12 @@ const MatchDetails = View.extend({
   },
 
   /**
-  * On error, show error message in this $el
+  * On error, log the response (json error didn't work)
   *
   * @param collection
   * @param response
   */
   loadMatchesErrorHandler: function (collection, response){
-    // this.$el.html(this.templateError({message: response.responseJSON.error}));
     console.log(collection);
     console.log(response);
   }

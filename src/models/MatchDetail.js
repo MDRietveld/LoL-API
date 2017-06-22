@@ -5,6 +5,6 @@ import {Model} from 'backbone';
  *
  * @constructor
  */
-const Match = Model.extend({});
+const MatchDetail = Model.extend({});
 
-export default Match;
+export default MatchDetail;

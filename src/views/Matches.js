@@ -21,7 +21,7 @@ const Matches = View.extend({
     //Set templates to use later on
     this.templateMatches = _.template(this.$('#template-matches').html());
     this.templateError = _.template(this.$('#template-error').html());
-    //Listen to global events for change of new club
+    //Listen to global events for change of the summoner which loads new matches
     App.events.on('getMatches', this.loadMatches, this);
   },
 
@@ -61,13 +61,12 @@ const Matches = View.extend({
   },
 
   /**
-  * On error, show error message in this $el
+  * On error, log the response (json error didn't work)
   *
   * @param collection
   * @param response
   */
   loadMatchesErrorHandler: function (collection, response){
-    // this.$el.html(this.templateError({message: response.responseJSON.error}));
     console.log(collection);
     console.log(response);
   }
