@@ -10,7 +10,8 @@ const SummonerInput = View.extend({
   router: null,
 
   events: {
-    'click .search-summoner': 'clickHandler'
+    'click .search-summoner': 'clickHandler',
+    'keyup .typed-summoner': 'logKey'
   },
 
   initialize: function ()
@@ -24,12 +25,21 @@ const SummonerInput = View.extend({
   *
   * @param e
   */
+  logKey: function (e)
+  {
+    if(e.keyCode == 13){
+      this.clickHandler();
+    }
+
+  },
+
+  /**
+  * Click handler for links, retrieve data attributes and navigate router
+  *
+  * @param e
+  */
   clickHandler: function (e)
   {
-    e.preventDefault();
-
-    //Get target the retrieve data properties
-    let target = e.currentTarget;
     let summoner = this.$('.typed-summoner').val();
     let region = this.$('.region option:selected').val();
     // let url = '/front-end/api.php?region=' + target.dataset['region'] + '&summoner=' + target.dataset['summoner'] + '';

@@ -7,8 +7,9 @@ header('Content-type: application/json');
 if(isset($_GET['region'])){
   $region = $_GET['region'];
 }
-
 session_start();
+// session_destroy();
+
 
 $root = 'https://'.$region.'.api.riotgames.com/';
 $result = '';
@@ -19,8 +20,13 @@ switch (true) {
     $result = file_get_contents($root . 'lol/summoner/v3/summoners/by-name/'.$summoner.'?'.$api_key);
     break;
   case isset($_GET['matchId']):
-    var_dump($_SESSION['champions']);
-    $result = file_get_contents($root . 'lol/match/v3/matches/'.$_GET['matchId'].'?'.$api_key);
+    $result = json_decode(file_get_contents($root . 'lol/match/v3/matches/'.$_GET['matchId'].'?'.$api_key));
+
+    foreach($result->participants as $participant){
+        $participant->championId = $_SESSION['champions'][$participant->championId];
+    }
+    // var_dump($result->participants);
+    $result = json_encode($result);
     break;
   case isset($_GET['id']):
     $id = $_GET['id'];

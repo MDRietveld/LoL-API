@@ -32,7 +32,7 @@
       <script id="template-summoner" type="text/template">
         <% _.each(summoner, function(summoner){ %>
           <div class="summoner">
-            <img src="http://ddragon.leagueoflegends.com/cdn/7.12.1/img/profileicon/<%= summoner.get('profileIconId') %>.png" alt="Summoner icon">
+            <img src="https://ddragon.leagueoflegends.com/cdn/7.12.1/img/profileicon/<%= summoner.get('profileIconId') %>.png" alt="Summoner icon">
             <div>
               <h1><%= summoner.get('name') %></h1>
               <p>
@@ -42,10 +42,6 @@
             </div>
           </div>
 
-          <p>
-            accountId:<%= summoner.get('accountId') %></br>
-            id:<%= summoner.get('id') %></br>
-          </p>
           <% }); %>
         </script>
       </div>
@@ -54,21 +50,57 @@
           <span class="error"><%= message %></span>
         </script>
         <script id="template-match-details" type="text/template">
-          <% _.each(matchdetails, function(details){ console.log(details); %>
+          <% _.each(matchdetails, function(details){ %>
             <div class="match-detail">
               <h1><%= details.get('gameMode') %></h1>
-              <p>
-                <%= (Math.floor(details.get('gameDuration')/60)) %>:<%= ((details.get('gameDuration')) - (Math.floor(details.get('gameDuration')/60)*60)) %></br>
-              </p>
-              <table>
-                <tr>
-                  <th>Team 1</th>
-                  <th>Team 2</th>
-                </tr>
-                <tr>
-                  <td></td>
-                </tr>
-              </table>
+
+              <div class="teams">
+                <div class="playtime">
+                  <div>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <%= (Math.floor(details.get('gameDuration')/60)) %>:<%= ((details.get('gameDuration')) - (Math.floor(details.get('gameDuration')/60)*60)) %>
+                  <div>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <% _.each(details.get('participants'), function(participant){ %>
+                    <% if(participant['teamId'] != 100){ %>
+                      <div class='team1'>
+                        <div class='champion'>
+                          <img src="https://ddragon.leagueoflegends.com/cdn/7.12.1/img/champion/<%= participant['championId']['key'] %>.png">
+                          <p><%= participant['championId']['name'] %></br>Level: <%= participant['stats']['champLevel'] %></p>
+                        </div>
+                        <p class="money">
+                          Gold earned:</br>
+                          <%= participant['stats']['goldEarned'] %>
+                        </p>
+                        <div class="kda">
+                          <%= participant['stats']['kills'] %> / <%= participant['stats']['deaths'] %> / <%= participant['stats']['assists'] %></br>
+                          kda <%= ((participant['stats']['kills'] + participant['stats']['assists']) / participant['stats']['deaths']).toFixed(2) %>
+                        </div>
+                      </div>
+
+                    <% }else{ %>
+                      <div class='team2'>
+                        <div class="kda">
+                          <%= participant['stats']['kills'] %> / <%= participant['stats']['deaths'] %> / <%= participant['stats']['assists'] %></br>
+                          kda <%= ((participant['stats']['kills'] + participant['stats']['assists']) / participant['stats']['deaths']).toFixed(2) %>
+                        </div>
+                        <p class="money">
+                          Gold earned:</br>
+                          <%= participant['stats']['goldEarned'] %>
+                        </p>
+                        <div class='champion'>
+                          <p><%= participant['championId']['name'] %></br>Level: <%= participant['stats']['champLevel'] %></p>
+                          <img src="https://ddragon.leagueoflegends.com/cdn/7.12.1/img/champion/<%= participant['championId']['key'] %>.png">
+                        </div>
+                      </div>
+                    <% } %>
+                <% }); %>
+              </div>
             </div>
           <% }); %>
         </script>
@@ -82,15 +114,13 @@
           <% _.each(matches, function(match){ %>
             <div class="match" data-gameid="<%= match['gameId'] %>">
               <!-- <h1><%= match['lane'] %></h1> -->
-              <img src="http://ddragon.leagueoflegends.com/cdn/7.12.1/img/champion/<%= match['champion']['key'] %>.png">
+              <img src="https://ddragon.leagueoflegends.com/cdn/7.12.1/img/champion/<%= match['champion']['key'] %>.png">
               <p>
+                <%= match['champion']['name'] %></br></br>
                 Lane: <%= match['lane'] %></br>
                 Role: <%= match['role'] %></br>
-                Champion: <%= match['champion']['name'] %></br>
-                Season:<%= match['season'] %></br>
-                Timestamp:<%= new Date(match['timestamp']).toLocaleString('nl-NL') %></br>
-                gameId:<%= match['gameId'] %></br>
-                Queue:<%= match['queue'] %>
+                Season:<%= match['season'] %></br></br></br>
+                <%= new Date(match['timestamp']).toLocaleString('nl-NL') %></br>
               </p>
             </div>
           <% }); %>
